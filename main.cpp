@@ -2,10 +2,7 @@
 
 #include<iostream>
 #include<fstream>
-#include<stdio.h>
-#include<string.h>
 #include<sstream>
-#include<stdlib.h>
 
 #include "Student.h"
 #include "Instructor.h"
@@ -126,7 +123,7 @@ int main(int argc, char **argv) {
 
     cout << endl;
     // Ask for credentials
-    cout << "Enter credentials to login, \n\t Enter Username: ";;
+    cout << "Enter credentials to login, \n\t Enter Username: ";
     cin >> inputUsername;
     cout << "\t Enter Password: ";
     cin >> inputPassword;
@@ -136,7 +133,7 @@ int main(int argc, char **argv) {
       for (int i = 0; i < numInstructors; i++) {
       } //for
       Instructor temp{}; //create temp instructor
-      if(temp.login(inputUsername,inputPassword,argv)) { // if log in is succesful
+      if(Instructor::login(inputUsername,inputPassword,argv)) { // if log in is succesful
 	for (int i = 0; i < numInstructors; i++) {
 	  if (inputUsername == instructors[i].getUsername()) { //find correct instructor
 	    temp = instructors[i]; // copy that instructor to temp instructor

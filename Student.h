@@ -24,20 +24,18 @@ class Student {
 
   //Constructors
   Student();
-  // Copy Constructor
-  Student(Student * student);
   // Constructor with every parameter
-  Student(string name, string username, string password, int projectGrade, int quizGrade, int midtermGrade, int finalGrade, string studentFile);
+  Student(string name, string username, string password, int projectGrade, int quizGrade, int midtermGrade, int finalGrade, const string& studentFile);
 
   
-  bool login(string username, string password, char **argv);
+  static bool login(const string& username, const string& password, char **argv);
   string getStudentName();
 
-  int getProjectGrade();
-  int getQuizGrade();
-  int getMidtermGrade();
-  int getFinalGrade();
-  double getOverallGrade();
+  int getProjectGrade() const;
+  int getQuizGrade() const;
+  int getMidtermGrade() const;
+  int getFinalGrade() const;
+  double getOverallGrade() const;
   string getUsername();
   string getPassword();
 

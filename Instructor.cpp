@@ -1,9 +1,9 @@
 #include "Instructor.h"
-#include "Student.h"
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <fstream>
+
 
 //Sets up default constructor for Instructor
 Instructor::Instructor() {
@@ -14,20 +14,15 @@ Instructor::Instructor() {
 
 //Sets up fully initialized Instructor constructor
 Instructor::Instructor(std::string username, std::string password, std::string fullName) {
-  this->username = username;
-  this->password = password;
-  this->fullName = fullName;
+  this->username = std::move(username);
+  this->password = std::move(password);
+  this->fullName = std::move(fullName);
 } //constructor
 
-//Sets up Instructor copy constructor
-Instructor::Instructor(Instructor * instructor) {
-  this->username = instructor->username;
-  this->password = instructor->password;
-  this->fullName = instructor->fullName;
-} //constructor
+
 
 //Login functionality
-bool Instructor::login(std::string username, std::string password, char **argv) {
+bool Instructor::login(const std::string& username, const std::string& password, char **argv) {
   //Defines file as first command line arg
   ifstream instructorFile(argv[1]);
   string fileReader;
@@ -43,10 +38,10 @@ bool Instructor::login(std::string username, std::string password, char **argv) 
     //parses through each line of file
     while (getline(tempString, s, '\t')) {
       //checks for proper username
-      if (s.compare(username) == 0) {
+      if (s == username) {
         getline(tempString, s, '\t');
         //given proper username, checks for proper password
-        if (s.compare(password) == 0) {
+        if (s == password) {
           succesfulLogin = true;
         } //if
       } //if
@@ -71,7 +66,7 @@ string Instructor::getPassword() {
 } //getPassword
 
 //returns all student info
-bool Instructor::getStudent(std::string username, Student students[], int numStudents) {
+bool Instructor::getStudent(const std::string& username, Student students[], int numStudents) {
   //iterates through all students
   for (int i = 0; i < numStudents; i++) {
     //checks for proper student based on username

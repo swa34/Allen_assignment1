@@ -3,6 +3,9 @@
 #include <sstream>
 #include <fstream>
 
+
+
+
 using namespace std;
 
 Student::Student() {
@@ -18,23 +21,13 @@ Student::Student() {
 
 } // Student
 
-Student::Student(Student * student) {
-  // copy string values over
-  this->fullName = student->fullName;
-  this->username = student->username;
-  this->password = student->password;
-  // Copy grade values over
-  this->projectGrade = student->projectGrade;
-  this->quizGrade = student->quizGrade;
-  this->midtermGrade = student->midtermGrade;
-  this->finalGrade = student->finalGrade;
-} // Student
 
-Student::Student(string name, string username, string password, int projectGrade, int quizGrade, int midtermGrade, int finalGrade, string studentFile) {
+
+Student::Student(string name, string username, string password, int projectGrade, int quizGrade, int midtermGrade, int finalGrade, const string& studentFile) {
   // Copy all respective values over
-  fullName = name;
-  this->username = username;
-  this->password = password;
+  fullName = std::move(name);
+  this->username = std::move(username);
+  this->password = std::move(password);
   
   this->projectGrade = projectGrade;
   this->quizGrade = quizGrade;
@@ -43,7 +36,7 @@ Student::Student(string name, string username, string password, int projectGrade
 
 } // Student
 
-bool Student::login(string username, string password, char **argv) {
+bool Student::login(const string& username, const string& password, char **argv) {
   // OPen file based on proper space in command line arguments
   ifstream studentFile(argv[2]);
   string fileReader;
@@ -57,12 +50,10 @@ bool Student::login(string username, string password, char **argv) {
   while (getline(studentFile, fileReader)) { // Read each line
     istringstream tempString{fileReader}; // Create string stream of each line
     while (getline(tempString, s, '\t')) { // Iterate through each string stream
-      if (s.compare(username) == 0) { // if the username position is equal
-	studentusername = s;
+      if (s == username) { // if the username position is equal
         getline(tempString, s, '\t'); // go to next item in the line
-        if (s.compare(password) == 0) { // is password is equal to input
+        if (s == password) { // is password is equal to input
           succesfulLogin = true; // set succesful login to true
-	  studentpassword = s;
         } //if
       } //if
     } //while
@@ -74,23 +65,23 @@ string Student::getStudentName() {
   return this->fullName;
 } // getStudentName
 
-int Student::getProjectGrade() {
+int Student::getProjectGrade() const {
   return this->projectGrade;
 } // getProjectGrade
 
-int Student::getQuizGrade() {
+int Student::getQuizGrade() const {
   return this->quizGrade;
 } // getQuizGrade
 
-int Student::getMidtermGrade() {
+int Student::getMidtermGrade() const {
   return this->midtermGrade;
 } // getMidtermGrade
 
-int Student::getFinalGrade() {
+int Student::getFinalGrade() const {
   return this->finalGrade;
 } //getFinalGrade
 
-double Student::getOverallGrade() {
+double Student::getOverallGrade() const {
   return ((0.3 * getProjectGrade()) + (0.1 * getQuizGrade()) + (0.2 * getMidtermGrade()) + (0.4 * getFinalGrade()));
 } // getOverallGrade
 
